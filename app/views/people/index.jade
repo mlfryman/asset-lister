@@ -1,0 +1,24 @@
+extends ../shared/template
+block content
+  h2 View People
+  table#people
+    thead
+      tr
+        th Name
+        th Photo
+        th Cash
+        th Assets
+        th Total
+    tbody
+      each person in people
+        .person(data-person-id=person._id.toString())
+          tr
+            td.name= person.name
+            td.photo(style='background-image:url("#{person.photo}");')
+            td.cash $#{person.cash.toFixed(2)}
+            td.assets $#{person.items * person.item.value.toFixed(2)}
+            td.total $#{person.total.toFixed(2)}
+  button Delete Person
+
+block scripts
+  script(src='/js/user/person.js')

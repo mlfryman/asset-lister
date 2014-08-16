@@ -8,11 +8,14 @@ function Person(o){
   this.photo = o.photo;
   this.cash = parseFloat(o.cash);
   this.items = [];
+  this.assets = 0;
+  this.liquidCash = 0;
 }
 
 Object.defineProperty(Person, 'collection', {
   get: function(){return global.mongodb.collection('people');}
 });
+
 
 Person.create = function(o, cb){
   var p = new Person(o);
@@ -32,9 +35,12 @@ Person.all = function(cb){
 };
 
 Person.prototype.addItem = function(o){
-  var item = {name:o.name, photo:o.photo, value:parseFloat(o.value)};
+  var item = {name:o.name, photo:o.photo, price:parseFloat(o.price), count:parseInt(o.count), value:parseFloat(o.price * o.count)};
   this.items.push(item);
+
+  this.assets += parseFloat(item.value);
 };
+
 Person.prototype.save = function(cb){
   Person.collection.save(this, cb);
 };

@@ -1,0 +1,8 @@
+extends ../shared/template
+block content
+  h2 New Person
+  form(method='post', action='/people')
+    input(name='name', type='text', placeholder='Name', autofocus=true)
+    input(name='photo', type='text', placeholder='Photo URL')
+    input(name='cash', type='number', placeholder='Cash')
+    button Create Person

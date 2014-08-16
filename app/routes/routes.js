@@ -16,7 +16,7 @@ module.exports = function(app, express){
   app.get('/people', people.index);
   app.post('/people', people.create);
   app.get('/people/init', people.init);
-  app.delete('/people', people.nukePerson);
+  app.delete('/people', people.deleteById);
   app.get('/people/:id/items/new', people.newItem);
   app.put('/people/:id', people.addItem);
 
