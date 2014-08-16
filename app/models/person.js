@@ -39,6 +39,11 @@ Person.prototype.save = function(cb){
   Person.collection.save(this, cb);
 };
 
+Person.deleteById = function(id, cb){
+  var _id = Mongo.ObjectID(id);
+  Person.collection.findAndRemove({_id:_id}, cb);
+};
+
 module.exports = Person;
 
 // PRIVATE FUNCTIONS //

@@ -87,5 +87,16 @@ describe('Person', function(){
       });
     });
   });
+
+  describe('.deleteById', function(){
+    it('should delete person by its id', function(done){
+      Person.deleteById(Mongo.ObjectID('100000000000000000000001'), function(person){
+        Person.all(function(err, people){
+          expect(people).to.have.length(2);
+          done();
+        });
+      });
+    });
+  });
 // Last Bracket
 });
