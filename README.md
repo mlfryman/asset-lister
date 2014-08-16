@@ -1,32 +1,34 @@
-## name of project
+## Asset Lister
 ### Code Badges
-build status icon
-coverage status icon
+[![Build Status](https://travis-ci.org/mlfryman/asset-lister.svg)](https://travis-ci.org/mlfryman/asset-lister)
+[![Coverage Status](https://coveralls.io/repos/mlfryman/asset-lister/badge.png)](https://coveralls.io/r/mlfryman/asset-lister)
 
 ### About
-write a description about your project
+Pretty self-explanatory.  This app lists people's assets; if you're feeling cray cray, set a person free (delete them from the db).
 
 ### Models
 ```
-Model 1
-prop-a
-prop-b
-.classMethod-c
-#instanceMethod-d
-```
-
-```
-Model 2
-prop-e
-prop-f
-.classMethod-g
-#instanceMethod-h
+People
+name
+photo
+cash
+items
+.findAll
+.findById
+.create
+#save
+#addItem
+#nukePerson
 ```
 
 ### Features
-- feature 1
-- feature 2
-- feature 3
+- Object Oriented
+- MVC
+- TDD
+- Mocha
+- MongoDB
+- Jade
+- Express
 
 ### Running Tests
 ```bash
@@ -35,8 +37,8 @@ $ npm test
 ```
 
 ### Contributors
-- [Chyld Medford](https://github.com/chyld)
+- [Melanie Fryman](https://github.com/mlfryman)
 
 ### License
-[MIT](LICENSE)
+- [MIT](LICENSE)
 
