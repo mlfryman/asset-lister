@@ -2,12 +2,12 @@
 /* global describe, it, before, beforeEach */
 
 'use strict';
-
-var expect    = require('chai').expect,
-    Person    = require('../../app/models/person'),
+var expect = require('chai').expect,
+    Person = require('../../app/models/person'),
     dbConnect = require('../../app/lib/mongodb'),
-    cp        = require('child_process'),
-    db        = 'template-test';
+    Mongo = require('mongodb'),
+    cp = require('child_process'),
+    db = 'asset-lister';
 
 describe('Person', function(){
   before(function(done){
@@ -24,18 +24,68 @@ describe('Person', function(){
 
   describe('constructor', function(){
     it('should create a new Person object', function(){
-      var p = new Person();
+      var p = new Person({name:'Bob', photo:'url.bob.png', cash:'5000'});
       expect(p).to.be.instanceof(Person);
+      expect(p.name).to.equal('Bob');
+      expect(p.photo).to.equal('url.bob.png');
+      expect(p.cash).to.equal(5000);
+      expect(p.items).to.have.length(0);
+    });
+  });
+
+  describe('.create', function(){
+    it('should create a person', function(done){
+      var p = new Person({name:'Bob', photo:'url.bob.png', cash:'5000'});
+      Person.create(p, function(err, person){
+        expect(person._id).to.be.instanceof(Mongo.ObjectID);
+        done();
+      });
     });
   });
 
   describe('.all', function(){
     it('should get all people', function(done){
       Person.all(function(err, people){
-        expect(people).to.have.length(2);
+        expect(people).to.have.length(3);
         done();
       });
     });
   });
-});
 
+  describe('.findById', function(){
+    it('should find a person by its id', function(done){
+      Person.findById(Mongo.ObjectID('100000000000000000000001'), function(person){
+        expect(person.name).to.equal('Snowball');
+        expect(person).to.be.instanceof(Person);
+        done();
+      });
+    });
+  });
+
+  describe('#save', function(){
+    it('should update an exiting person in the database', function(done){
+      Person.findById('100000000000000000000001', function(person){
+        person.cash = 2000;
+        person.items = [];
+        person.save(function(){
+          expect(person.cash).to.equal(2000);
+          expect(person.items).to.have.length(0);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('#addItem', function(){
+    it('should add an asset to a person', function(){
+      Person.findById('100000000000000000000001', function(person){
+        person.addItem({name:'Kitten', photo:'kitten.jpg', value:'1000'});
+        expect(person.items).to.have.length(4);
+        expect(person.items[3].name).to.equal('Kitten');
+        expect(person.items[3].photo).to.equal('kitten.jpg');
+        expect(person.items[3].value).to.be.closeTo(1000, 0.1);
+      });
+    });
+  });
+// Last Bracket
+});
