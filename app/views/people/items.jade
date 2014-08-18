@@ -1,10 +1,9 @@
 extends ../shared/template
 block content
-  h2 New Item
-  form(method='post', action='/people/#{id}/items')
-    input(name='method', type='hidden', value='put')
+  h1 New Item
+  form(method='post', action='/people/' + person._id)
     input(name='name', type='text', placeholder='Name', autofocus=true)
     input(name='photo', type='text', placeholder='Photo')
-    input(name='value', type='number', placeholder='Value')
+    input(name='price', type='number', placeholder='Price')
     input(name='count', type='number', placeholder='Count')
     button Add Item

@@ -8,14 +8,27 @@ function Person(o){
   this.photo = o.photo;
   this.cash = parseFloat(o.cash);
   this.items = [];
-  this.assets = 0;
-  this.liquidCash = 0;
 }
 
 Object.defineProperty(Person, 'collection', {
   get: function(){return global.mongodb.collection('people');}
 });
 
+Object.defineProperty(Person.prototype, 'assetValue', {
+  get: function(){
+    if(!this.items.length){return 0;}
+
+    var sum = _.reduce(this.items(function(sum, value){
+      return sum + value;}));
+    return sum * 1;
+  }
+});
+
+Object.defineProperty(Person.prototype, 'total', {
+  get: function(){
+    return (this.cash + this.assetValue) * 1;
+  }
+});
 
 Person.create = function(o, cb){
   var p = new Person(o);
@@ -34,11 +47,11 @@ Person.all = function(cb){
   Person.collection.find().toArray(cb);
 };
 
-Person.prototype.addItem = function(o){
-  var item = {name:o.name, photo:o.photo, price:parseFloat(o.price), count:parseInt(o.count), value:parseFloat(o.price * o.count)};
+Person.prototype.addItem = function(o, cb){
+  var item = {name:o.name, photo:o.photo, count: parseInt(o.count), price: parseFloat(o.price), total: 0};
+  item.total = item.count * item.price;
   this.items.push(item);
-
-  this.assets += parseFloat(item.value);
+  Person.collection.update({_id:this._id}, {$push:{items:item}}, cb);
 };
 
 Person.prototype.save = function(cb){

@@ -13,12 +13,14 @@ module.exports = function(app, express){
   app.use(methodOverride());
 
   app.get('/', home.index);
-  app.get('/people', people.index);
+
+  app.get('/people/new', people.init);
   app.post('/people', people.create);
-  app.get('/people/init', people.init);
-  app.delete('/people', people.deleteById);
-  app.get('/people/:id/items/new', people.newItem);
-  app.put('/people/:id', people.addItem);
+  app.get('/people', people.index);
+  app.get('/people/:id', people.show);
+  app.delete('/people', people.destroy);
+  app.get('/people/:id/items/new', people.items);
+  app.post('/people/:id', people.addItem);
 
   console.log('Routes Loaded');
 };

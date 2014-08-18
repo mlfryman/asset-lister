@@ -77,15 +77,26 @@ describe('Person', function(){
   });
 
   describe('#addItem', function(){
-    it('should add an asset to a person', function(){
+    it('should add an asset to a person', function(done){
       Person.findById('100000000000000000000001', function(person){
-        person.addItem({name:'Kitten', photo:'kitten.jpg', price:'1000', count:'2', value:'2000'});
-        expect(person.items).to.have.length(4);
-        expect(person.items[3].name).to.equal('Kitten');
-        expect(person.items[3].photo).to.equal('kitten.jpg');
-        expect(person.items[3].price).to.be.closeTo(1000, 0.1);
-        expect(person.items[3].value).to.be.closeTo(2000, 0.1);
-        expect(person.assets).to.be.closeTo(90005, 0.1);
+        person.addItem({name:'Kitten', photo:'kitten.jpg', price:'1000', count:'2', value:'2000'}, function(){
+          expect(person.items).to.have.length(4);
+          expect(person.items[3].name).to.equal('Kitten');
+          expect(person.items[3].photo).to.equal('kitten.jpg');
+          expect(person.items[3].price).to.be.closeTo(1000, 0.1);
+          expect(person.items[3].total).to.be.closeTo(2000, 0.1);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('-#assetValue', function(){
+    it('should compute total value of assets', function(){
+      Person.findById('100000000000000000000001', function(person){
+        person.items.push(({name:'staple', photo:'staple.jpg', price:'10', count:'2', value:'20'}, {name:'kitten', photo:'kitten.jpg', price:'100', count:'5', value:'500'}), function(){
+          expect(person.assets).to.be.closeTo(90525, 0.1);
+        });
       });
     });
   });

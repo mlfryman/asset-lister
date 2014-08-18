@@ -1,27 +1,24 @@
 extends ../shared/template
 block content
-  h2 #{person.id}'s Assets
-ul
-  li= account.photo
-  li= account.opened
-  li= account.type
-h2 Items
-  ul
-    li: a(href='/people/#{person._id}/items/new') New Item
-  br
-  table#items
-    thead
-      tr
-        th Name
-        th Photo
-        th Value
-        th Count
-        th Total
-    tbody
-      each item in person.items
-        tr
-          td= item.name
-          td.photo(style='background-image:url("#{person.photo}");')
-          td $#{item.value.toFixed(2)}
-          td= item.count
-          td $#{item.total.toFixed(2)}
+  h1 #{person.name}'s Assets
+  h3 Cash: $#{person.cash}
+  h3 Assets: $#{person.assetValue}
+    h2 Items
+      button: a(href='/people/' + person._id + '/items/new') Add New Item
+      br
+      table#items
+        thead
+          tr
+            th Name
+            th Photo
+            th Price
+            th Count
+            th Total
+        tbody
+          each item in person.items
+            tr
+              td= item.name
+              td.itemphoto(style='background-image: url(#{item.photo});')
+              td $#{item.price}
+              td= item.count
+              td $#{(item.count * item.price) * 1}
