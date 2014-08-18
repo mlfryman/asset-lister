@@ -18,9 +18,11 @@ Object.defineProperty(Person.prototype, 'assetValue', {
   get: function(){
     if(!this.items.length){return 0;}
 
-    var sum = _.reduce(this.items(function(sum, value){
-      return sum + value;}));
-    return sum * 1;
+    console.log(this.items);
+
+    var sum = _.reduce(this.items, (function(sum, item){
+      return sum + item.total;}), 0);
+    return sum;
   }
 });
 

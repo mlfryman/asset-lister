@@ -92,11 +92,10 @@ describe('Person', function(){
   });
 
   describe('-#assetValue', function(){
-    it('should compute total value of assets', function(){
+    it('should compute total value of assets', function(done){
       Person.findById('100000000000000000000001', function(person){
-        person.items.push(({name:'staple', photo:'staple.jpg', price:'10', count:'2', value:'20'}, {name:'kitten', photo:'kitten.jpg', price:'100', count:'5', value:'500'}), function(){
-          expect(person.assets).to.be.closeTo(90525, 0.1);
-        });
+        expect(person.assetValue).to.be.closeTo(90050, 0.1);
+        done();
       });
     });
   });
